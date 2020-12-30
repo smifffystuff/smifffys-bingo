@@ -25,6 +25,7 @@ exports.create = functions.https.onCall((data, context) => {
     .firestore()
     .collection('games')
     .add({
+      emulator: true,
       name: data.name,
       color: data.color,
       oneLine: {

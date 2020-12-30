@@ -15,4 +15,14 @@ const app = firebase.initializeApp({
 export const auth = app.auth();
 export const db = app.firestore();
 export const funcs = app.functions();
+
+if (window.location.hostname === 'localhost') {
+  console.log('localhost detected!!');
+  db.settings({
+    host: 'localhost:8080',
+    ssl: false,
+  });
+  funcs.useEmulator('localhost', 5001);
+  auth.useEmulator('http://localhost:9099/');
+}
 export default app;
