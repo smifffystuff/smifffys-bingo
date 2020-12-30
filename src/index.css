@@ -1,13 +1,77 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+* {
+  box-sizing: border-box;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.bingo-grid {
+  max-width: 100%;
+  display: flex;
+  /* flex-wrap: nowrap; */
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.bingo-card {
+  margin: 0 auto;
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: palegoldenrod;
+}
+
+.bingo-card-play-area {
+  background-color: lightgray;
+}
+
+.bingo-row {
+  display: flex;
+}
+
+.bingo-cell {
+  display: flex;
+  align-content: space-around;
+  justify-content: space-around;
+  width: 40px;
+  height: 40px;
+  border: 1px solid black;
+  font-size: 20pt;
+  font-weight: bold;
+}
+
+.bingo-cell-content {
+  width: 100%;
+  height: 100%;
+  margin: auto auto;
+}
+
+.number-history-list {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  list-style: none;
+}
+
+.number-history-list .number-history-list-number {
+  display: flex;
+  align-content: space-around;
+  justify-content: space-around;
+  width: 40px;
+  height: 40px;
+  border: 1px solid black;
+  font-size: 20pt;
+  font-weight: bold;
+  border-radius: 20px;
+  margin: 0 5px;
+}
+
+.number-history-list .number-history-list-number:first-child {
+  background-color: red;
+  width: 60px;
+  height: 60px;
+  font-size: 30pt;
+  border-radius: 30px;
+}
+
+.number-called-content {
+  width: 100%;
+  height: 100%;
+  margin: auto auto;
 }
