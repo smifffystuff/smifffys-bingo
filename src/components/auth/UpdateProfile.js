@@ -32,14 +32,14 @@ const UpdateProfile = () => {
 
     Promise.all(promises)
       .then(() => {
+        setLoading(false);
         history.push('/');
       })
       .catch(() => {
+        setLoading(false);
         setError('Failed to update account');
       })
-      .finally(() => {
-        setLoading(false);
-      });
+      .finally(() => {});
   };
 
   return (

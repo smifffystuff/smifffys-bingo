@@ -174,6 +174,7 @@ exports.callNumber = functions.https.onCall(async (data, context) => {
     let gameOver = game.gameOver;
     const numberIndex = Math.round(Math.random() * numbersAvailable.length);
     const number = numbersAvailable[numberIndex];
+    console.log(`Calling number ${number}`);
     numbersAvailable.splice(numberIndex, 1);
     numbersCalled.unshift(number);
     const players = game.players;

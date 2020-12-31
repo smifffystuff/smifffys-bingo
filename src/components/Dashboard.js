@@ -75,7 +75,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <Modal show={showModal} onHide={handleCloseModal}>
+      <Modal show={showModal} onHide={handleCloseModal} animation={false}>
         <Modal.Header closeButton>
           <Modal.Title>Create New Game</Modal.Title>
         </Modal.Header>
@@ -145,22 +145,26 @@ const Dashboard = () => {
         <Card.Body>
           <h2>Current Games</h2>
           <ListGroup>
-            {games.map(game => (
-              <ListGroup.Item
-                key={game.id}
-                className="d-flex flex-row justify-content-between align-items-center"
-              >
-                {game.name} ({game.players.length})
-                <Button variant="link" onClick={() => handleJoinGame(game)}>
-                  {currentUser.uid === game.owner
-                    ? 'Start Game'
-                    : game.inProgress && 'Join Game'}
-                </Button>
-                <Button variant="link" onClick={() => handleLeaveGame(game.id)}>
-                  Leave Game
-                </Button>
-              </ListGroup.Item>
-            ))}
+            {games &&
+              games.map(game => (
+                <ListGroup.Item
+                  key={game.id}
+                  className="d-flex flex-row justify-content-between align-items-center"
+                >
+                  {game.name} ({game.players.length})
+                  <Button variant="link" onClick={() => handleJoinGame(game)}>
+                    {currentUser.uid === game.owner
+                      ? 'Start Game'
+                      : game.inProgress && 'Join Game'}
+                  </Button>
+                  <Button
+                    variant="link"
+                    onClick={() => handleLeaveGame(game.id)}
+                  >
+                    Leave Game
+                  </Button>
+                </ListGroup.Item>
+              ))}
           </ListGroup>
           <div className="text-center w-100">
             <Button className="mt-4" variant="link" onClick={handleShowModal}>
@@ -171,9 +175,10 @@ const Dashboard = () => {
       </Card>
       <Card>
         <Card.Body>
-          <h2 className="text-center mb-4">Profile</h2>
+          <h2 className="text-center mb-4">
+            {currentUser && currentUser.displayName}'s Profile
+          </h2>
           {error && <Alert variant="danger">{error}</Alert>}
-          <strong>Nickname:</strong> {currentUser.displayName}
           <Link to="/update-profile" className="btn btn-primary w-100 mt-3">
             Update Profile
           </Link>

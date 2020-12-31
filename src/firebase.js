@@ -16,7 +16,10 @@ export const auth = app.auth();
 export const db = app.firestore();
 export const funcs = app.functions();
 
-if (window.location.hostname === 'localhost') {
+if (
+  window.location.hostname === 'localhost' &&
+  process.env.REACT_APP_USE_EMULATOR
+) {
   console.log('localhost detected!!');
   db.settings({
     host: 'localhost:8080',
