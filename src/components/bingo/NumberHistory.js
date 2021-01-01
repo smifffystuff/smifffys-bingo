@@ -19,7 +19,6 @@ const NumberHistory = ({ numbersCalled, oneLine, twoLines, fullHouse }) => {
 
   return (
     <>
-      <div className="w-100 text-center">Number History</div>
       <h4>Currently Playing For {playingFor}</h4>
       <div className="number-history-list text-center">
         {numbersCalled.slice(0, 8).map(number => (

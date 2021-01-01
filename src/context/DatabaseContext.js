@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { db } from '../firebase';
 
 import { useAuth } from './AuthContext';
+import { useFunctions } from './FunctionsContext';
 
 const DatabaseContext = React.createContext();
 
@@ -34,6 +35,8 @@ export const DatabaseProvider = ({ children }) => {
           gotCurrentGame = true;
           setCurrentGame({
             id: game.id,
+            owner: game.owner,
+            name: game.name,
             cards,
             numbersCalled: game.numbersCalled,
             oneLine: game.oneLine,

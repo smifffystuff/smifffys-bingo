@@ -42,6 +42,11 @@ export const FunctionsProvider = ({ children }) => {
     return gamesDelete({ gameId });
   };
 
+  const getUserNickname = userId => {
+    const userGetNickname = funcs.httpsCallable('users-getNickname');
+    return userGetNickname({ userId });
+  };
+
   const value = {
     createNewGame,
     joinGame,
@@ -49,6 +54,7 @@ export const FunctionsProvider = ({ children }) => {
     startGame,
     deleteGame,
     callNumber,
+    getUserNickname,
   };
 
   return (

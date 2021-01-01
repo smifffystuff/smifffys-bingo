@@ -12,3 +12,9 @@ exports.delete = functions.auth.user().onDelete(user => {
   const doc = admin.firestore().collection('users').doc(user.uid);
   return doc.delete();
 });
+
+exports.getNickname = functions.https.onCall(async (data, context) => {
+  const userId = data.userId;
+  const user = await admin.auth().getUser(userId);
+  return user.displayName;
+});

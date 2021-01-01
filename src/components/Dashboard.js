@@ -65,14 +65,6 @@ const Dashboard = () => {
     }
   };
 
-  const handleLeaveGame = async gameId => {
-    try {
-      await leaveGame(gameId);
-    } catch (error) {
-      setError(error.message);
-    }
-  };
-
   return (
     <>
       <Modal show={showModal} onHide={handleCloseModal} animation={false}>
@@ -155,13 +147,7 @@ const Dashboard = () => {
                   <Button variant="link" onClick={() => handleJoinGame(game)}>
                     {currentUser.uid === game.owner
                       ? 'Start Game'
-                      : game.inProgress && 'Join Game'}
-                  </Button>
-                  <Button
-                    variant="link"
-                    onClick={() => handleLeaveGame(game.id)}
-                  >
-                    Leave Game
+                      : game.inProgress && !game.started && 'Join Game'}
                   </Button>
                 </ListGroup.Item>
               ))}
