@@ -14,6 +14,7 @@ export const DatabaseProvider = ({ children }) => {
   const [games, setGames] = useState([]);
   const [currentGame, setCurrentGame] = useState(null);
   const [callingGame, setCallingGame] = useState(null);
+  const [chatMessages, setChatMessages] = useState([]);
   const { currentUser } = useAuth();
 
   useEffect(() => {
@@ -60,10 +61,32 @@ export const DatabaseProvider = ({ children }) => {
     return unsubscribe;
   }, [currentUser]);
 
+  useEffect(() => {
+    if (currentGame) {
+      const unsubscribe = db
+        .collection('messages')
+        .where('gameId', '==', currentGame.id)
+        .orderBy('sentAt', 'desc')
+        .limit(25)
+        .onSnapshot(snapshot => {
+          const messages = snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+          console.log('messages', messages);
+          setChatMessages(messages);
+        });
+      return unsubscribe;
+    } else {
+      setChatMessages([]);
+    }
+  }, [currentGame]);
+
   const value = {
     games,
     currentGame,
     callingGame,
+    chatMessages,
   };
 
   return (

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
+import { Button, ListGroup } from 'react-bootstrap';
 
 import { useDatabase } from '../../context/DatabaseContext';
 import { useFunctions } from '../../context/FunctionsContext';
@@ -40,19 +40,40 @@ const CallingGame = () => {
           />
           <h5>Number Of Players {callingGame.players.length}</h5>
           {callingGame.oneLine.allow && (
-            <h5>One Line Won {callingGame.oneLine.won ? 'YES' : 'NO'}</h5>
+            <h5>
+              One Line Won{' '}
+              {callingGame.oneLine.won ? callingGame.oneLine.winnerName : 'NO'}
+            </h5>
           )}
           {callingGame.twoLines.allow && (
-            <h5>Two Lines Won {callingGame.twoLines.won ? 'YES' : 'NO'}</h5>
+            <h5>
+              Two Lines Won{' '}
+              {callingGame.twoLines.won
+                ? callingGame.twoLines.winnerName
+                : 'NO'}
+            </h5>
           )}
           {callingGame.fullHouse.allow && (
-            <h5>Full House Won {callingGame.fullHouse.won ? 'YES' : 'NO'}</h5>
+            <h5>
+              Full House Won{' '}
+              {callingGame.fullHouse.won
+                ? callingGame.fullHouse.winnerName
+                : 'NO'}
+            </h5>
           )}
           {callingGame.gameOver && <h4>GAME OVER</h4>}
-          <Button variant="primary" onClick={handleCallNumber}>
-            Call Next Number
-          </Button>
-          <Button className="mt-" variant="danger" onClick={handleDeleteGame}>
+          <h4>Players: </h4>
+          <ListGroup className="my-3">
+            {callingGame.players.map(player => (
+              <ListGroup.Item key={player.id}>{player.name}</ListGroup.Item>
+            ))}
+          </ListGroup>
+          {!callingGame.gameOver && (
+            <Button variant="primary" onClick={handleCallNumber}>
+              Call Next Number
+            </Button>
+          )}
+          <Button variant="danger" onClick={handleDeleteGame}>
             Delete Game
           </Button>
         </div>

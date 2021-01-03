@@ -5,6 +5,10 @@ service cloud.firestore {
       allow read: if true;
       allow write: if false; 
     }
+    match /messages/{message} {
+      allow read: if true;
+      allow write: if true; 
+    }
     match /users/{user} {
       allow read, write: if user == request.auth.uid || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
     }

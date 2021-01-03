@@ -26,8 +26,8 @@ const Login = () => {
   };
 
   return (
-    <>
-      <Card>
+    <div className="border w-100 d-flex flex-column justify-content-center">
+      <Card className="align-self-center">
         <Card.Body>
           <h2 className="text-center mb-4">Log In</h2>
           {error && <Alert variant="danger">{error}</Alert>}
@@ -52,7 +52,7 @@ const Login = () => {
       <div className="w-100 text-center mt-2">
         Need an account? <Link to="/signup">Sign Up</Link>
       </div>
-    </>
+    </div>
   );
 };
 

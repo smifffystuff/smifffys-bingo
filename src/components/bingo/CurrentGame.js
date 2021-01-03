@@ -6,6 +6,7 @@ import { useDatabase } from '../../context/DatabaseContext';
 import { useFunctions } from '../../context/FunctionsContext';
 import CardGrid from './CardGrid';
 import NumberHistory from './NumberHistory';
+import ChatPanel from '../chat/ChatPanel';
 
 const CurrentGame = () => {
   const { currentGame } = useDatabase();
@@ -20,17 +21,13 @@ const CurrentGame = () => {
       console.error(error);
     }
   };
-  console.log(currentGame);
 
   return (
     <>
       {currentGame && (
-        <div className="w-100 text-center">
-          <h2 className="w-100 text-center mt-5">...{currentGame.name}</h2>
-          <Button
-            variant="link"
-            onClick={() => handleLeaveGame(currentGame.id)}
-          >
+        <div className="d-flex flex-column text-center border border-dark">
+          <h2 className="w-100 text-center mt-5">{currentGame.name}</h2>
+          <Button onClick={() => handleLeaveGame(currentGame.id)}>
             Leave Game
           </Button>
           <NumberHistory
@@ -39,7 +36,10 @@ const CurrentGame = () => {
             twoLines={currentGame.twoLines}
             fullHouse={currentGame.fullHouse}
           />
-          <CardGrid cards={currentGame.cards} />
+          <div className="d-flex flex-row align-self-center flex-grow-1 border border-primary">
+            <CardGrid cards={currentGame.cards} />
+            <ChatPanel />
+          </div>
         </div>
       )}
       {!currentGame && (

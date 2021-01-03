@@ -25,7 +25,6 @@ exports.gerenateCards = () => {
         c => availableNumbers[c].length > 0
       );
       if (availableCols.length < 5) {
-        console.log('FAILED');
         failed = true;
         break;
       }

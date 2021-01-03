@@ -69,16 +69,21 @@ exports.join = functions.https.onCall(async (data, context) => {
   }
   const gameRef = admin.firestore().collection('games').doc(data.gameId);
   const gameSnapshot = await gameRef.get();
+  const player = await admin.auth().getUser(context.auth.uid);
 
   if (gameSnapshot.exists) {
     const game = gameSnapshot.data();
     const currentPlayers = game.players;
     const bingoCards = gerenateCards();
+    if (currentPlayers.some(player => player.id === context.auth.uid)) {
+      console.log('Player already in game, re-joing');
+      return game;
+    }
     return gameRef.set(
       {
         players: [
           ...currentPlayers,
-          { id: context.auth.uid, cards: bingoCards },
+          { id: context.auth.uid, cards: bingoCards, name: player.displayName },
         ],
       },
       { merge: true }
@@ -169,10 +174,21 @@ exports.callNumber = functions.https.onCall(async (data, context) => {
     const numbersAvailable = game.numbersAvailable;
     const numbersCalled = game.numbersCalled;
     const oneLine = game.oneLine;
+    const oneLineWasWon = oneLine.won;
     const twoLines = game.twoLines;
+    const twoLinesWasWon = twoLines.won;
     const fullHouse = game.fullHouse;
+    const fullHouseWasWon = fullHouse.won;
     let gameOver = game.gameOver;
-    const numberIndex = Math.round(Math.random() * numbersAvailable.length);
+    if (gameOver) {
+      console.log('Game over so not doing anything');
+      return {
+        numbersAvailable,
+        numbersCalled,
+      };
+    }
+    const numberIndex = Math.floor(Math.random() * numbersAvailable.length);
+    console.log(numberIndex, numbersAvailable.length);
     const number = numbersAvailable[numberIndex];
     console.log(`Calling number ${number}`);
     numbersAvailable.splice(numberIndex, 1);
@@ -213,6 +229,21 @@ exports.callNumber = functions.https.onCall(async (data, context) => {
       ((oneLine.allow && oneLine.won) || !oneLine.allow)
     ) {
       gameOver = true;
+    }
+
+    if (!oneLineWasWon && oneLine.won) {
+      const winner = await admin.auth().getUser(oneLine.winner);
+      oneLine.winnerName = winner.displayName;
+    }
+
+    if (!twoLinesWasWon && twoLines.won) {
+      const winner = await admin.auth().getUser(twoLines.winner);
+      twoLines.winnerName = winner.displayName;
+    }
+
+    if (!fullHouseWasWon && fullHouse.won) {
+      const winner = await admin.auth().getUser(fullHouse.winner);
+      fullHouse.winnerName = winner.displayName;
     }
 
     await gameRef.set(

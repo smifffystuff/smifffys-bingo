@@ -47,6 +47,11 @@ export const FunctionsProvider = ({ children }) => {
     return userGetNickname({ userId });
   };
 
+  const sendChatMessage = (gameId, message) => {
+    const postChat = funcs.httpsCallable('chat-post');
+    return postChat({ gameId, message });
+  };
+
   const value = {
     createNewGame,
     joinGame,
@@ -55,6 +60,7 @@ export const FunctionsProvider = ({ children }) => {
     deleteGame,
     callNumber,
     getUserNickname,
+    sendChatMessage,
   };
 
   return (
