@@ -7,10 +7,16 @@ service cloud.firestore {
     }
     match /messages/{message} {
       allow read: if true;
-      allow write: if true; 
+      allow write: if canCreateMessage(); 
     }
     match /users/{user} {
       allow read, write: if user == request.auth.uid || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+    }
+
+    function canCreateMessage() {
+      let isSignedIn = request.auth.uid != null;
+      let isOwner = request.auth.uid == request.resource.data.userId;
+      return isSignedIn && isOwner;
     }
   }
 }
